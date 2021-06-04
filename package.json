@@ -1,0 +1,24 @@
+{
+    "name": "discord-bot",
+    "version": "1.0.0",
+    "description": "",
+    "main": "bot.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node ./src/bot.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sofwah/discord-bot.git"
+    },
+    "author": "Sofia W",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/sofwah/discord-bot/issues"
+    },
+    "homepage": "https://github.com/sofwah/discord-bot#readme",
+    "dependencies": {
+        "discord.js": "^12.5.3",
+        "dotenv": "^10.0.0"
+    }
+}
