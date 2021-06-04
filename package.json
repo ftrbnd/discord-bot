@@ -19,6 +19,7 @@
     "homepage": "https://github.com/sofwah/discord-bot#readme",
     "dependencies": {
         "discord.js": "^12.5.3",
-        "dotenv": "^10.0.0"
+        "dotenv": "^10.0.0",
+        "mongoose": "^5.12.12"
     }
 }
