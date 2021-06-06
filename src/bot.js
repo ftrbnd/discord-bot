@@ -1,10 +1,10 @@
 /*
 TODO:
 - will probably need to change format of the date to make searching easier (e.g. to dd/mm)
-- figure out how to search and access the data 
+- figure out how to search and access the data, Data.find({date: ... })
 - handle timezones
-- handle leap years
--
+- take in the user as an argument?
+- 
 */
 
 require('dotenv').config();
