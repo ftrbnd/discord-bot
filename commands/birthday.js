@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 //connect to database
-mongoose.connect(process.env.MONGO_PASS, { //correct path?
+mongoose.connect(process.env.MONGO_PASS, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
