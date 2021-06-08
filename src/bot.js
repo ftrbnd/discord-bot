@@ -9,59 +9,38 @@ TODO:
 
 require('dotenv').config();
 
-//importing the class Client from discord.js
-const { Client } = require('discord.js');
-const client = new Client();
+const Discord = require('discord.js');
+const client = new Discord.Client();
 const PREFIX = "$";
 
-//adding mongoose package (www.mongodb.com)
-const mongoose = require('mongoose');
+const fs = require('fs');
 
+client.commands = new Discord.Collection();
 
+//make sure all read files are javaScript files
+const commandFiles = fs.readdirSync('./commands/').filter(file => file.endsWith('.js'));
+for (const file of commandFiles) {
+    const command = require(`../commands/${file}`);
 
-//connect to database
-mongoose.connect(process.env.MONGO_PASS, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-});
+    client.commands.set(command.name, command)
+}
 
-//models
-const Data = require('../models/data.js');
-
+client.once('ready', () => {
+    console.log('the bot is ready');
+})
 
 client.on('message', (message) => {
     if (message.author.bot) return; //doesn't listen to bots
+    if (!message.content.startsWith(PREFIX)) return; //only listens to messages starting with prefix
 
-    if (message.content.startsWith(PREFIX)) {
-        const [CMD_NAME, ...args] = message.content //array destructuring, first element in CMD_NAME and the rest in array
-            .trim() //trims all white space before and after
-            .substring(PREFIX.length)
-            .split(/\s+/); //handles extra white spaces between arguments
 
-        if (CMD_NAME === 'birthday') {
-            if (args.length !== 3) { // DD MM TIMEZONE
-                return message.channel.send("invalid amount of arguments");
-            }
+    const [CMD_NAME, ...args] = message.content //array destructuring, first element in CMD_NAME and the rest in array
+        .trim() //trims all white space before and after
+        .substring(PREFIX.length)
+        .split(/\s+/); //handles extra white spaces between arguments
 
-            const user = message.author.id; //id of the author of the message
-
-            //use member and the array args (dd, mm, timezone) to save data in an appropriate database
-            Data.findOne({
-                userID: user // =data below
-            }, (err, data) => {
-                if (err) console.log(err);
-                if (!data) { //if data doesn't exist we need to create it
-                    const newData = new Data({
-                        userID: user,
-                        day: args[0],
-                        month: args[1],
-                        timezone: args[2],
-                    });
-                    newData.save().catch(err => console.log(err));
-                    return message.channel.send(`registered birthday for <@${user}>`);
-                }
-            });
-        }
+    if (CMD_NAME === 'birthday') {
+        client.commands.get('birthday').execute(message, args);
     }
 });
 
