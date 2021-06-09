@@ -28,6 +28,9 @@ mongoose.connect(process.env.MONGO_PASS, {
 //models
 const Data = require('../models/data.js');
 
+client.on('ready', () => {
+    console.log("Bot is now online!")
+})
 
 client.on('message', (message) => {
     if (message.author.bot) return; //doesn't listen to bots
